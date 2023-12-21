@@ -7,31 +7,31 @@ import (
 	"time"
 )
 
+type logType string
+type color string
+
+const (
+	Green   color = "\033[32m"
+	Magenta color = "\033[95m"
+	Red     color = "\033[31m"
+	Yellow  color = "\033[33m"
+	Cyan    color = "\033[36m"
+	Reset   color = "\033[0m"
+
+	info  logType = "INFO"
+	warn  logType = "WARN"
+	error logType = "ERROR"
+	debug logType = "DEBUG"
+
+	space = " "
+)
+
 type Logger interface {
 	Info(output string, args ...any)
 	Warn(output string, args ...any)
 	Error(output string, args ...any)
 	Debug(output string, args ...any)
 }
-
-type LogType string
-type Color string
-
-const (
-	Green   Color = "\033[32m"
-	Magenta Color = "\033[95m"
-	Red     Color = "\033[31m"
-	Yellow  Color = "\033[33m"
-	Cyan    Color = "\033[36m"
-	Reset   Color = "\033[0m"
-
-	info  LogType = "INFO"
-	warn  LogType = "WARN"
-	error LogType = "ERROR"
-	debug LogType = "DEBUG"
-
-	space = " "
-)
 
 type GLogger struct {
 	appName string
@@ -41,37 +41,40 @@ func NewGLogger(appName string) Logger {
 	return &GLogger{appName: appName}
 }
 func (log *GLogger) Info(output string, args ...any) {
-	log.log(info, fmt.Sprintf(output, args...))
+	log.log(info, output, args)
 }
 
 func (log *GLogger) Warn(output string, args ...any) {
-	log.log(warn, fmt.Sprintf(output, args...))
+	log.log(warn, output, args)
 }
 
 func (log *GLogger) Debug(output string, args ...any) {
-	log.log(debug, fmt.Sprintf(output, args...))
+	log.log(debug, output, args)
 }
 
 func (log *GLogger) Error(output string, args ...any) {
-	log.log(error, fmt.Sprintf(output, args...))
+	log.log(error, output, args)
 }
 
-func (log *GLogger) log(logType LogType, output string) {
+func (log *GLogger) log(logType logType, output string, args ...any) {
+
+	formatted := fmt.Sprintf(output, args...)
+
 	switch logType {
 	case info:
-		log.print(string(logType)+space, Green, output)
+		log.print(string(logType), Green, formatted)
 	case warn:
-		log.print(string(logType)+space, Yellow, output)
+		log.print(string(logType), Yellow, formatted)
 	case debug:
-		log.print(string(logType), Green, output)
+		log.print(string(logType), Green, formatted)
 	case error:
-		log.print(string(logType), Red, output)
+		log.print(string(logType), Red, formatted)
 		printStackTrace()
 	}
 
 }
 
-func (log *GLogger) print(logType string, color Color, output string) {
+func (log *GLogger) print(logType string, color color, output string) {
 	fmt.Printf("%s %s %s %s %d %s [%s] %s \n",
 		time.Now().Format(time.RFC3339),
 		color,

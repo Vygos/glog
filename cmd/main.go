@@ -16,6 +16,7 @@ func main() {
 	gLogger.Info("Receiving event of payload: %+v", person)
 	gLogger.Warn("Connection has to much opened connections total: %d", 10)
 
-	gLogger.Info("\n %s Executing query of: %s", glog.Cyan, "SELECT * FROM USUARIOS WHERE ID = 2")
+	gLogger.Info("Executing query of: %s", glog.Cyan, "SELECT * FROM USUARIOS WHERE ID = 2")
+	gLogger.Warn("Connection has to much opened connections total: %d", 10)
 
 }

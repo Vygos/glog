@@ -1,6 +1,8 @@
 package main
 
-import "github.com/Vygos/glog"
+import (
+	"github.com/Vygos/glog"
+)
 
 type Person struct {
 	Name string

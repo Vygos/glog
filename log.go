@@ -8,15 +8,15 @@ import (
 )
 
 type logType string
-type color string
+type Color string
 
 const (
-	Green   color = "\033[32m"
-	Magenta color = "\033[95m"
-	Red     color = "\033[31m"
-	Yellow  color = "\033[33m"
-	Cyan    color = "\033[36m"
-	Reset   color = "\033[0m"
+	Green   Color = "\033[32m"
+	Magenta Color = "\033[95m"
+	Red     Color = "\033[31m"
+	Yellow  Color = "\033[33m"
+	Cyan    Color = "\033[36m"
+	Reset   Color = "\033[0m"
 
 	info  logType = "INFO"
 	warn  logType = "WARN"
@@ -74,7 +74,7 @@ func (log *GLogger) log(logType logType, output string, args ...any) {
 
 }
 
-func (log *GLogger) print(logType string, color color, output string) {
+func (log *GLogger) print(logType string, color Color, output string) {
 	fmt.Printf("%s %s %s %s %d %s [%s] %s \n",
 		time.Now().Format(time.RFC3339),
 		color,
